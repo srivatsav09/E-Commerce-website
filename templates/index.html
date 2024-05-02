@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shoulder Detection</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Add this CSS to style the navbar */
+        body{
+            margin:0;
+            padding:0;
+        }
+        .navbar {
+            overflow: hidden;
+            background-color: #fcd1e8;
+            padding: 10px 20px; /* Adjust the padding as needed */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Navbar links */
+        .navbar a {
+            color: #333;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+        .logo img {
+            vertical-align: middle;
+            width: 110px;
+            margin-left: 120px;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            margin-right: 130px;
+        }
+
+        nav ul li {
+            display: inline-block;
+            margin-right: 30px; /* Maintain spacing between buttons */
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            font-size: 16px; /* Decreased font size */
+            transition: color 0.3s;
+            font-family:'Poppins', sans-serif;
+        }
+
+        nav ul li a:hover {
+            color: #ff4500; /* Change to your desired hover color */
+        }
+        /* On hover, the links will change color */
+        .navbar a:hover {
+            color: #ff4500; /* Change to your desired hover color */
+        }
+        
+        /* Center the container horizontally and vertically */
+        .container {
+            position: absolute;
+            top: 50%;
+            left: 25%;
+            transform: translate(-50%, -50%);
+            margin-top: 50px; /* Add margin to adjust the position below the heading */
+            border: 2px solid black; /* Add border for visualization */
+            overflow: hidden; /* Hide overflow content */
+            width: 640px; /* Adjust width as needed */
+            height: 480px; /* Adjust height as needed */
+        }
+
+        /* Style the video feed */
+        video {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Style the message */
+        .message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 24px;
+            font-weight: bold;
+            color: red;
+            display: none;
+        }
+        .image-container {
+            position: absolute;
+            top: 50%;
+            right: 15%; /* Adjust the value to change the distance from the right edge */
+            transform: translateY(-50%);
+            height: 50%; /* Adjust the height as needed */
+        }
+
+        .image-container img {
+            height: 100%;
+            width: auto; /* Maintain aspect ratio */
+            border: 2px solid black; /* Add border for visualization */
+        }
+        .btn {
+            position: absolute;
+            right:25%;
+            top:80%;
+        }
+        .primary {
+            background-color: #fcd1e8;
+            color: black;
+            border:#fcd1e8 ;
+        }
+        .primary:hover {
+            background: #ff69b4; /* Change the hover background color to a lighter shade of pink */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+            </div>
+            <ul class="nav-links">
+                <li><a href="#Home">Home</a></li>
+                <li><a href="#Products">Products</a></li>
+                <li><a href="#About">About</a></li>
+                <li><a href="#Contact">Contact</a></li>
+                <li><a href="#Account">Account</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="container">
+        <img src="{{ url_for('video_feed') }}" alt="Webcam Feed">
+        <div class="message" id="message">Please come into the frame</div>
+    </div>
+    <div class="image-container">
+        <img src="{{ url_for('static',filename=image_src) }}" alt="Clicked Image">
+    </div>
+    <div class="btn">
+        <button class="primary">Try it Out</button>
+    </div>
+    <script>
+        // JavaScript to toggle message visibility based on user_in_frame variable
+        var userInFrame = {{ user_in_frame | tojson }};
+        var message = document.getElementById("message");
+
+        if (!userInFrame) {
+            message.style.display = "block";
+        } else {
+            message.style.display = "none";
+        }
+    </script>
+</body>
+</html>
